@@ -25,7 +25,7 @@ const createProduct = async () => {
             categpry,
             abilities,
             types,
-            url: `http://localhost:3000/images/${id}.png`
+            url: `https://candid-concha-a4c1b5.netlify.app///images/${id}.png`
         }
     })
     let data = JSON.parse(fs.readFileSync("routes/db.json"));

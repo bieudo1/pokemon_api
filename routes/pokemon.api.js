@@ -34,6 +34,8 @@ const allowedFilter = [
     db = JSON.parse(db);
     const { pokemons } = db;
     let result = [];
+    // console.log(search)
+    console.log(type)
     if (filterKeys.length) {
       filterKeys.forEach((condition) => {
         result.data = result.data.length
@@ -46,7 +48,7 @@ const allowedFilter = [
     if(search){
       result = result.filter((e) => e.name.toLowerCase().includes(search.toLowerCase()) || e.id === search) 
     }
-    result = result.filter((e) => e.types.includes(type)) || result;
+    type ? result = result.filter((e) => e.types.includes(type)) : result =  result;
     result = result.slice(offset, offset + limit);
     res.status(200).send(result)
   } catch (error) {
