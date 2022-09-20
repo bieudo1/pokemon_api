@@ -63,12 +63,11 @@ router.get("/:pokemonId",(req,res,next)=>{
     let db = fs.readFileSync("routes/db.json", "utf-8");
     db = JSON.parse(db);
     const { pokemons } = db;
-    console.log(pokemons.length-1)
+    console.log(pokemons.length)
     let getpokemonid = {"pokemon":[],"nextPokemon":[],"previousPokemon":[]}
-    console.log(pokemons[723])
     Number.parseInt(pokemonId) === (pokemons.length-1) ? getpokemonid.nextPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===1) : getpokemonid.nextPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===Number.parseInt(pokemonId)+1)
     getpokemonid.pokemon =pokemons.find(pokemon=>pokemon.id===pokemonId)
-    pokemonId === "1" ? getpokemonid.previousPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===(pokemons.length-1)) : getpokemonid.previousPokemon =pokemons.find(pokemon=>Number.parseInt (pokemon.id)===Number.parseInt(pokemonId)-1)
+    pokemonId === "1" ? getpokemonid.previousPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===(pokemons.length)) : getpokemonid.previousPokemon =pokemons.find(pokemon=>Number.parseInt (pokemon.id)===Number.parseInt(pokemonId)-1)
     
     if(!getpokemonid){
       const exception = new Error(`pokemon not found`);
@@ -82,18 +81,20 @@ router.get("/:pokemonId",(req,res,next)=>{
   }
   })
 
-router.post("/",(req,res,next)=>{
+router.post("/addPokemon",(req,res,next)=>{
     try{
-        const { id, name, types, url} = req.body;
+        let { name, id, url, types} = req.body;
     if(!id || !name || !types || !url ){
         const exception = new Error(`Missing body info`);
         exception.statusCode = 401;
         throw exception;
     }
+    types = types.filter((e) => e != null)
+    console.log(types)
     const newpokemon = {id, name, types, url};
 let db = fs.readFileSync("routes/db.json", "utf-8");
 db = JSON.parse(db);
-const { pokemons } = db;``
+const { pokemons } = db;
 
 pokemons.push(newpokemon)
 db.pokemons=pokemons
@@ -106,7 +107,7 @@ fs.writeFileSync("routes/db.json",db)
     })
 
 
-router.post("/:pokemonId",(req,res,next)=>{
+router.put("/:pokemonId",(req,res,next)=>{
     try{
         const allowUpdate= [ "name","id","types","url",]
 
