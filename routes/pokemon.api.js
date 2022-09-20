@@ -35,7 +35,7 @@ const allowedFilter = [
     const { pokemons } = db;
     let result = [];
     // console.log(search)
-    console.log(type)
+    console.log( search)
     if (filterKeys.length) {
       filterKeys.forEach((condition) => {
         result.data = result.data.length
@@ -46,7 +46,7 @@ const allowedFilter = [
       result =  pokemons;
     }
     if(search){
-      result = result.filter((e) => e.name.toLowerCase().includes(search.toLowerCase()) || e.id === search) 
+      result = result.filter((e) => e.name.toLowerCase().includes(search.toLowerCase()))
     }
     type ? result = result.filter((e) => e.types.includes(type)) : result =  result;
     result = result.slice(offset, offset + limit);
@@ -65,7 +65,7 @@ router.get("/:pokemonId",(req,res,next)=>{
     const { pokemons } = db;
     console.log(pokemons.length)
     let getpokemonid = {"pokemon":[],"nextPokemon":[],"previousPokemon":[]}
-    Number.parseInt(pokemonId) === (pokemons.length-1) ? getpokemonid.nextPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===1) : getpokemonid.nextPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===Number.parseInt(pokemonId)+1)
+    Number.parseInt(pokemonId) === (pokemons.length) ? getpokemonid.nextPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===1) : getpokemonid.nextPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===Number.parseInt(pokemonId)+1)
     getpokemonid.pokemon =pokemons.find(pokemon=>pokemon.id===pokemonId)
     pokemonId === "1" ? getpokemonid.previousPokemon = pokemons.find(pokemon=>Number.parseInt (pokemon.id)===(pokemons.length)) : getpokemonid.previousPokemon =pokemons.find(pokemon=>Number.parseInt (pokemon.id)===Number.parseInt(pokemonId)-1)
     
